@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Consulta de Funcionários</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>CPF</th>
+                                    <th>Endereço</th>
+                                    <th>Data de Nascimento</th>
+                                    <th>Cargo</th>
+                                    <th>Data de Cadastro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for funcionario in funcionarios %}
+                                <tr>
+                                    <td>{{ funcionario.nome }}</td>
+                                    <td>{{ funcionario.email }}</td>
+                                    <td>{{ funcionario.telefone }}</td>
+                                    <td>{{ funcionario.cpf }}</td>
+                                    <td>{{ funcionario.endereco }}</td>
+                                    <td>{{ funcionario.data_nascimento|date:"d/m/Y" }}</td>
+                                    <td>{{ funcionario.cargo }}</td>
+                                    <td>{{ funcionario.data_cadastro|date:"d/m/Y" }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="8" class="text-center">Nenhum funcionário encontrado.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

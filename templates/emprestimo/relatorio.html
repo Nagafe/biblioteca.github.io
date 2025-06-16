@@ -1,0 +1,114 @@
+<!-- emprestimos/relatorio.html (Relatório de Empréstimos) -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Relatório de Empréstimos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Relatório de Empréstimos</h2>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="GET" class="row mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Filtrar por pessoa:</label>
+            <input type="text" name="usuario" class="form-control" placeholder="Nome do usuário" value="{{ request.GET.usuario }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Período:</label>
+            <input type="date" name="data" class="form-control" value="{{ request.GET.data }}">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <div class="card p-3 bg-light border">
+                <strong>Empréstimos:</strong>
+                <p>{{ total_emprestimos }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 bg-light border">
+                <strong>Devoluções:</strong>
+                <p>{{ total_devolucoes }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 bg-light border">
+                <strong>Atrasos:</strong>
+                <p>{{ total_atrasos }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Livro</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Devolução</th>
+                    <th>Dias</th>
+                    <th>Renovação</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.leitor.nome_completo }}</td>
+                    <td>{{ emprestimo.livro.titulo }}</td>
+                    <td>{{ emprestimo.data_emprestimo|date:"d/m/Y" }}</td>
+                    <td>{{ emprestimo.data_devolucao|date:"d/m/Y" }}</td>
+                    <td>{{ emprestimo.numero_dias }}</td>
+                    <td>
+                        {% if emprestimo.renovacao %}
+                            <span class="badge bg-info">Renovado</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Não Renovado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if emprestimo.status == 'A' %}
+                            <span class="badge bg-success">Ativo</span>
+                        {% elif emprestimo.status == 'D' %}
+                            <span class="badge bg-primary">Devolvido</span>
+                        {% else %}
+                            <span class="badge bg-danger">Atrasado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if emprestimo.status == 'A' and not emprestimo.renovacao %}
+                            <form method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="emprestimo_id" value="{{ emprestimo.id }}">
+                                <button type="submit" name="renovar" class="btn btn-sm btn-info">Renovar</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">Nenhum empréstimo encontrado</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

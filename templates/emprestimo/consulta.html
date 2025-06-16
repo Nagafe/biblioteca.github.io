@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Consulta de Empréstimos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="menu-links">      
+        <a class="btn btn-primary" href="{% url 'emprestimo_livro' %}">Novo Empréstimo</a>
+        <a class="btn btn-info" href="{% url 'consulta_emprestimo' %}">Consultar</a>  
+        <a class="btn btn-warning" href="{% url 'atualizar_emprestimo' %}">Atualizar</a>
+        <a class="btn btn-danger" href="{% url 'excluir_emprestimo' %}">Excluir</a>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">Bem-vindo à página de consulta de empréstimos!</h4>
+        <p>Utilize esta página para gerenciar os empréstimos do sistema da biblioteca. Aqui você pode realizar empréstimos, atualizar, consultar e excluir registros quando necessário.</p>
+        <hr>
+        <p class="mb-0">Clique nos botões de ação acima para começar.</p>
+    </div>
+
+    {% if emprestimos %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Livro</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Devolução</th>
+                    <th>Dias</th>
+                    <th>Renovação</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.leitor.nome_completo }}</td>
+                    <td>{{ emprestimo.livro.titulo }}</td>
+                    <td>{{ emprestimo.data_emprestimo|date:"d/m/Y" }}</td>
+                    <td>{{ emprestimo.data_devolucao|date:"d/m/Y" }}</td>
+                    <td>{{ emprestimo.numero_dias }}</td>
+                    <td>
+                        {% if emprestimo.renovacao %}
+                            <span class="badge bg-info">Renovado</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Não Renovado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if emprestimo.status == 'A' %}
+                            <span class="badge bg-success">Ativo</span>
+                        {% elif emprestimo.status == 'D' %}
+                            <span class="badge bg-primary">Devolvido</span>
+                        {% else %}
+                            <span class="badge bg-danger">Atrasado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if emprestimo.status == 'A' and not emprestimo.renovacao %}
+                            <a href="{% url 'renovar_emprestimo' emprestimo.id %}" class="btn btn-sm btn-info">Renovar</a>
+                        {% endif %}
+                        <a href="{% url 'atualizar_emprestimo' emprestimo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'excluir_emprestimo' emprestimo.id %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        Nenhum empréstimo encontrado.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Funcionário - Biblioteca</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Biblioteca</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emprestimo_livro' %}">Empréstimos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'acervo' %}">Acervo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'leitor' %}">Leitores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'funcionario' %}">Funcionários</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">Confirmar Exclusão</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">Tem certeza que deseja excluir o funcionário <strong>{{ funcionario.usuario.nome }}</strong>?</p>
+                        <p>Esta ação não pode ser desfeita.</p>
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'funcionario' %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

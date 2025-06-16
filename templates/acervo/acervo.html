@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Consulta de Acervo{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Consulta de Acervo</h2>
+    <form method="GET" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <input type="text" name="titulo" class="form-control" placeholder="Título" value="{{ request.GET.titulo }}">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="autor" class="form-control" placeholder="Autor" value="{{ request.GET.autor }}">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="genero" class="form-control" placeholder="Gênero" value="{{ request.GET.genero }}">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Status</option>
+                <option value="disponivel" {% if request.GET.status == 'disponivel' %}selected{% endif %}>Disponível</option>
+                <option value="emprestado" {% if request.GET.status == 'emprestado' %}selected{% endif %}>Emprestado</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <a href="{% url 'acervo' %}" class="btn btn-secondary">Limpar</a>
+        </div>
+    </form>
+
+    {% if livros %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Gênero</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                <tr>
+                    <td>{{ livro.titulo }}</td>
+                    <td>{{ livro.autor }}</td>
+                    <td>{{ livro.genero }}</td>
+                    <td>
+                        {% if livro.status == 'D' %}
+                            <span class="badge bg-success">Disponível</span>
+                        {% else %}
+                            <span class="badge bg-warning">Emprestado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'detalhe_livro' livro.id %}" class="btn btn-sm btn-info">Detalhes</a>
+                        {% if livro.status == 'D' %}
+                            <a href="{% url 'emprestimo_livro' livro.id %}" class="btn btn-sm btn-primary">Emprestar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        Nenhum livro encontrado com os filtros selecionados.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
