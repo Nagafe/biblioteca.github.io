@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Dashboard</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Empréstimos</h5>
+                    <p class="card-text">Gerencie os empréstimos de livros</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'consulta_emprestimo' %}" class="btn btn-primary">Consultar Empréstimos</a>
+                        <a href="{% url 'relatorio_emprestimo' %}" class="btn btn-outline-primary">Relatórios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Acervo</h5>
+                    <p class="card-text">Gerencie o acervo da biblioteca</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'acervo' %}" class="btn btn-primary">Consultar Acervo</a>
+                        <a href="{% url 'livro' %}" class="btn btn-outline-primary">Gerenciar Livros</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Leitores</h5>
+                    <p class="card-text">Gerencie leitores e funcionários</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'leitor' %}" class="btn btn-primary">Gerenciar Leitores</a>
+                        <a href="{% url 'funcionario' %}" class="btn btn-outline-primary">Gerenciar Funcionários</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Livros</h5>
+                    <p class="card-text display-6">{{ total_livros }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Empréstimos Ativos</h5>
+                    <p class="card-text display-6">{{ emprestimos_ativos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Leitores</h5>
+                    <p class="card-text display-6">{{ total_leitores }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Funcionários</h5>
+                    <p class="card-text display-6">{{ total_funcionarios }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

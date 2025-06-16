@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Acervo de Livros</h1>
+    <div class="row">
+        {% for livro in livros %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ livro.titulo }}</h5>
+                    <p class="card-text">Autor: {{ livro.autor }}</p>
+                    <p class="card-text">Gênero: {{ livro.genero }}</p>
+                    <p class="card-text">Cópias: {{ livro.copias }}</p>
+                    <p class="card-text">Ano: {{ livro.ano }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
