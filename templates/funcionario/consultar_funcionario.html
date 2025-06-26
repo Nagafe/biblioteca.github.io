@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar_actions %}
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'funcionario_index' %}">Voltar ao Menu</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'cadastrar_funcionario' %}">Cadastrar Novo</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Lista de Funcionários</h2>
+    {% if funcionarios %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for funcionario in funcionarios %}
+                    <tr>
+                        <td>{{ funcionario.nome }}</td>
+                        <td>{{ funcionario.email }}</td>
+                        <td>{{ funcionario.telefone }}</td>
+                        <td>
+                            <a href="{% url 'atualizar_funcionario' funcionario.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'excluir_funcionario' funcionario.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Nenhum funcionário cadastrado ainda.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

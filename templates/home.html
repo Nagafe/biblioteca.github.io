@@ -1,0 +1,22 @@
+<!-- home.html (Menu principal) -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">Sistema de Biblioteca</h2>
+    <div class="row"> {# Remover row-cols-X e g-4 #}
+        <div class="col-md-4 mb-4"> {# Exemplo com col-md-4 e margem inferior #}
+            <a href="{% url 'funcionario_index' %}" class="btn btn-outline-success w-100">Funcionários</a>
+        </div>
+        <div class="col-md-4 mb-4"> {# Exemplo com col-md-4 e margem inferior #}
+            <a href="{% url 'leitor_index' %}" class="btn btn-outline-warning w-100">Leitores</a>
+        </div>
+        <div class="col-md-4 mb-4"> {# Exemplo com col-md-4 e margem inferior #}
+            <a href="{% url 'livro_index' %}" class="btn btn-outline-warning w-100">Livros</a>
+        </div>
+        {# Outros cols aqui #}
+    </div>
+</div>
+{% endblock %}

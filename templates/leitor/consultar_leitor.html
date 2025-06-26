@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar_actions %}
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'leitor_index' %}">Voltar ao Menu</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'cadastrar_leitor' %}">Cadastrar</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Lista de Leitores</h2>
+    {% if leitores %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leitor in leitores %}
+                    <tr>
+                        <td>{{ leitor.nome }}</td>
+                        <td>{{ leitor.email }}</td>
+                        <td>{{ leitor.cpf }}</td>
+                        <td>{{ leitor.telefone|default:"N/A" }}</td>
+                        <td>
+                            <a href="{% url 'atualizar_leitor' leitor.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'excluir_leitor' leitor.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Nenhum leitor cadastrado ainda.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

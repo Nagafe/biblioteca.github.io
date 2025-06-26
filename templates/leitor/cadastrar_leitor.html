@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar_actions %}
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'leitor_index' %}">Voltar ao Menu</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-link nav-link" href="{% url 'leitor_consultar' %}">Consultar</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2>Cadastrar Novo Leitor</h2>
+    <form method="POST" action="{% url 'cadastrar_leitor' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }} {# Renderiza os campos do formulário #}
+        </div>
+        <button type="submit" class="btn btn-primary">Cadastrar Leitor</button>
+    </form>
+</div>
+{% endblock %}
